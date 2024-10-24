@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 from PIL import Image
 
 def count_all_images(folder_path):
@@ -301,8 +302,10 @@ def count_images_with_35x35_ratio(folder_path):
     print(f"Anzahl der Bilder mit einer Größe von 35x35: {count}")
     return count
         
+
+
 # Beispiel für Nutzung
-folder_path = "GTSRB/Final_Training/Images"
+folder_path = "/Users/linuspfeifer/Downloads/GTSRB-3/Final_Training/Images"
 
 min_width = 35
 min_height = 35
@@ -311,7 +314,7 @@ min_height = 35
 #unter 35x35: 10000
 #unter 40x40: 17000
 
-count_all_images(folder_path)
+#count_all_images(folder_path)
 #count_small_images(folder_path, min_width, min_height)
 #calculate_largest_aspect_ratio_difference(folder_path)
 #calculate_percentage_of_images_with_large_aspect_ratio_difference(folder_path, threshold_percentage=10)
@@ -320,4 +323,4 @@ count_all_images(folder_path)
 #count_images_in_subfolders(folder_path)
 #resize_image_with_largest_aspect_ratio_difference(folder_path, target_size=(35, 35), ratio_threshold=10)
 #resize_all_images_to_35x35(folder_path, target_size=(35, 35))
-count_images_with_35x35_ratio(folder_path)
+#count_images_with_35x35_ratio(folder_path)
