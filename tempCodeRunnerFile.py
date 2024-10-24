@@ -1,2 +1,0 @@
-r_path, threshold_percentage=10)
-#count_images_falling_below_threshold_or_large_aspect_ra
