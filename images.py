@@ -303,9 +303,69 @@ def count_images_with_35x35_ratio(folder_path):
     return count
         
 
+def clean_csv_files(folder_path):
+    """
+    Durchsucht alle Unterordner des angegebenen Pfads, überprüft für jede .csv-Datei,
+    ob die zugehörigen Bilddateien vorhanden sind, und löscht Einträge zu fehlenden Bildern.
+    
+    Parameters:
+    - folder_path (str): Pfad zum Hauptordner, der die Bilder-Ordner enthält.
+    """
+    processed_files = 0
+    
+    # Überprüfen, ob der angegebene Pfad existiert
+    if not os.path.exists(folder_path):
+        print(f"Der Pfad '{folder_path}' existiert nicht.")
+        return
+    
+    print(f"Durchsuche den Hauptordner: {folder_path}")
+
+    # Durch alle Unterordner und Dateien des angegebenen Verzeichnisses iterieren
+    for root, dirs, files in os.walk(folder_path):
+        # Suchen nach der CSV-Datei im aktuellen Unterordner
+        csv_file_path = None
+        for file in files:
+            if file.endswith(".csv"):
+                csv_file_path = os.path.join(root, file)
+                print(f"Verarbeite CSV-Datei: {csv_file_path}")
+                break  # Nur die erste gefundene CSV-Datei verarbeiten
+
+        if csv_file_path is not None:
+            # CSV-Datei laden
+            try:
+                df = pd.read_csv(csv_file_path, delimiter=";")
+            except Exception as e:
+                print(f"Fehler beim Laden der CSV-Datei: {e}")
+                continue
+            
+            # Liste zur Speicherung der Zeilen, die behalten werden sollen
+            rows_to_keep = []
+            
+            # Überprüfen, ob jede Bilddatei vorhanden ist
+            for _, row in df.iterrows():
+                image_file_path = os.path.join(root, row["Filename"])
+                if os.path.isfile(image_file_path):
+                    rows_to_keep.append(row)
+            
+            # Nur schreiben, wenn es Änderungen gibt
+            if len(rows_to_keep) != len(df):
+                # Aktualisierte Daten in die CSV-Datei zurückschreiben
+                updated_df = pd.DataFrame(rows_to_keep)
+                updated_df.to_csv(csv_file_path, index=False, sep=";")
+                print(f"Aktualisiert: {csv_file_path}")
+            else:
+                print(f"Keine Änderungen erforderlich für: {csv_file_path}")
+
+            # Zähler erhöhen
+            processed_files += 1
+        else:
+            print(f"Keine CSV-Datei in: {root}")
+
+    print(f"Bereinigung abgeschlossen. {processed_files} CSV-Dateien verarbeitet.")
+
 
 # Beispiel für Nutzung
-folder_path = "GTSRB/Final_Test/Images"
+folder_path = "GTSRB/Final_Training/Images"
 
 min_width = 35
 min_height = 35
@@ -314,7 +374,7 @@ min_height = 35
 #unter 35x35: 10000
 #unter 40x40: 17000
 
-count_all_images(folder_path)
+#count_all_images(folder_path)
 #count_small_images(folder_path, min_width, min_height)
 #calculate_largest_aspect_ratio_difference(folder_path)
 #calculate_percentage_of_images_with_large_aspect_ratio_difference(folder_path, threshold_percentage=10)
@@ -323,4 +383,6 @@ count_all_images(folder_path)
 #count_images_in_subfolders(folder_path)
 #resize_image_with_largest_aspect_ratio_difference(folder_path, target_size=(35, 35), ratio_threshold=10)
 #resize_all_images_to_35x35(folder_path, target_size=(35, 35))
-count_images_with_35x35_ratio(folder_path)
+#count_images_with_35x35_ratio(folder_path)
+# Funktion aufrufen mit dem gewünschten Pfad
+clean_csv_files(folder_path)
