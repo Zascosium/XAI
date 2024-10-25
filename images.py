@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 from PIL import Image
 
 def count_all_images(folder_path):
@@ -301,8 +302,10 @@ def count_images_with_35x35_ratio(folder_path):
     print(f"Anzahl der Bilder mit einer Größe von 35x35: {count}")
     return count
         
+
+
 # Beispiel für Nutzung
-folder_path = "GTSRB/Final_Training/Images"
+folder_path = "GTSRB/Final_Test/Images"
 
 min_width = 35
 min_height = 35
