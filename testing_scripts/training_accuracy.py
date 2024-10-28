@@ -68,7 +68,7 @@ class CNN(nn.Module):
         return out
 
 # Prüfen, ob das Modell geladen werden kann und die Pfade korrekt sind
-model_path = 'model/model.pth'
+model_path = '../model/model.pth'
 if not os.path.exists(model_path):
     raise FileNotFoundError(f"Das Modell unter '{model_path}' wurde nicht gefunden.")
 
@@ -133,5 +133,5 @@ def test_model(train_dir):
     print(f"Genauigkeit des Modells auf dem Trainingsdatensatz: {accuracy:.2f}%")
 
 # Beispiel für die Verwendung
-train_dir = 'GTSRB/Final_Training/Images'
+train_dir = '../GTSRB/Final_Training/Images'
 test_model(train_dir)

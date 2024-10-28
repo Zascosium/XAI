@@ -68,7 +68,7 @@ class CNN(nn.Module):
 
 
 # Prüfe, ob das Modell geladen werden kann und die Pfade korrekt sind
-model_path = 'model/model.pth'  # Pfad zum Modell
+model_path = '../model/model.pth'  # Pfad zum Modell
 if not os.path.exists(model_path):
     raise FileNotFoundError(f"Das Modell unter '{model_path}' wurde nicht gefunden.")
 
@@ -108,6 +108,6 @@ def predict(image_path):
     return predicted_class.item()
 
 # Beispiel für die Verwendung
-image_path = 'vorfahrt.jpg'  # Pfad zum Bild
+image_path = '../vorfahrt.jpg'  # Pfad zum Bild
 result = predict(image_path)
 print("Vorhergesagte Klasse:", result)
