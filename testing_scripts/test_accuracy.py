@@ -5,6 +5,15 @@ import os
 import torch.nn as nn
 import pandas as pd
 
+import torch
+import torch.nn as nn
+
+import torch
+import torch.nn as nn
+
+import torch
+import torch.nn as nn
+
 class CNN(nn.Module):
     def __init__(self, num_classes):
         super(CNN, self).__init__()
@@ -22,18 +31,25 @@ class CNN(nn.Module):
         self.conv_layer4 = nn.Conv2d(in_channels=384, out_channels=256, kernel_size=4, padding=1)
         self.relu4 = nn.ReLU()
 
-        self.conv_layer5 = nn.Conv2d(in_channels=256, out_channels=256, kernel_size=4, padding=1)
+        self.conv_layer5 = nn.Conv2d(in_channels=256, out_channels=128, kernel_size=4, padding=1)
         self.relu5 = nn.ReLU()
         self.max_pool5 = nn.MaxPool2d(kernel_size=3, stride=2)
 
         self.dropout6 = nn.Dropout(p=0.5)
         
-        self.fc6 = nn.Linear(256, 512)
+        
+        self.fc6 = nn.Linear(128, 512) 
         self.relu6 = nn.ReLU()
         self.dropout7 = nn.Dropout(p=0.5)
         self.fc7 = nn.Linear(512, 256)
         self.relu7 = nn.ReLU()
-        self.fc8 = nn.Linear(256, num_classes)
+
+        self.dropout8 = nn.Dropout(p=0.5)
+        self.fc8 = nn.Linear(256, 128)
+        self.relu8 = nn.ReLU()
+
+
+        self.fc9 = nn.Linear(128, num_classes)
 
     def forward(self, x):
         out = self.conv_layer1(x)
@@ -63,12 +79,16 @@ class CNN(nn.Module):
         out = self.fc7(out)
         out = self.relu7(out)
 
+        out = self.dropout8(out)
         out = self.fc8(out)
+        out = self.relu8(out)
+
+        out = self.fc9(out)
 
         return out
 
 # Prüfen, ob das Modell geladen werden kann und die Pfade korrekt sind
-model_path = '../model/model.pth'
+model_path = 'model/base_sgd_model.pth'
 if not os.path.exists(model_path):
     raise FileNotFoundError(f"Das Modell unter '{model_path}' wurde nicht gefunden.")
 
@@ -109,7 +129,9 @@ def test_model(test_dir, csv_path):
         filename = row['Filename']
         true_class = row['ClassId']
         
-        image_path = os.path.join(test_dir, filename)
+        #image_path = os.path.join(test_dir, filename)
+        image_path = test_dir + '/' + filename
+
         if not os.path.exists(image_path):
             print(f"Bild nicht gefunden: {image_path}")
             continue
@@ -126,6 +148,6 @@ def test_model(test_dir, csv_path):
     print(f"Genauigkeit des Modells auf dem Testdatensatz: {accuracy:.2f}%")
 
 # Beispiel für die Verwendung
-test_dir = '../GTSRB/Final_Test/Images'
-csv_path = '../GTSRB/Final_Test/Images/GT-final_test.csv'
+test_dir = 'GTSRB/Final_Test/Images'
+csv_path = 'GTSRB/Final_Test/Images/GT-final_test.csv'
 test_model(test_dir, csv_path)
