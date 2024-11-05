@@ -5,12 +5,6 @@ import os
 import torch.nn as nn
 import pandas as pd
 
-import torch
-import torch.nn as nn
-
-import torch
-import torch.nn as nn
-
 class CNN(nn.Module):
     def __init__(self, num_classes):
         super(CNN, self).__init__()
@@ -33,8 +27,6 @@ class CNN(nn.Module):
         self.max_pool5 = nn.MaxPool2d(kernel_size=3, stride=2)
 
         self.dropout6 = nn.Dropout(p=0.5)
-        
-        
         self.fc6 = nn.Linear(128, 512) 
         self.relu6 = nn.ReLU()
         self.dropout7 = nn.Dropout(p=0.5)
@@ -44,7 +36,6 @@ class CNN(nn.Module):
         self.dropout8 = nn.Dropout(p=0.5)
         self.fc8 = nn.Linear(256, 128)
         self.relu8 = nn.ReLU()
-
 
         self.fc9 = nn.Linear(128, num_classes)
 
@@ -81,7 +72,6 @@ class CNN(nn.Module):
         out = self.relu8(out)
 
         out = self.fc9(out)
-
         return out
 
 # Prüfen, ob das Modell geladen werden kann und die Pfade korrekt sind
@@ -117,10 +107,21 @@ def test_model(train_dir):
     correct = 0
     total = 0
     
-    # Durch alle Klassenordner iterieren (00000 bis 00042)
-    for class_id in range(43):
-        class_folder = os.path.join(train_dir, f"{class_id:05d}")
-        csv_path = os.path.join(class_folder, f"GT-{class_id:05d}.csv")
+    # Durch alle Klassenordner iterieren, die jetzt den Klassennamen als Ordnernamen haben
+    for class_folder_name in os.listdir(train_dir):
+        class_folder = os.path.join(train_dir, class_folder_name)
+        
+        if not os.path.isdir(class_folder):
+            continue
+
+        try:
+            # Klassennummer aus dem Ordnernamen extrahieren
+            class_id = int(class_folder_name)
+        except ValueError:
+            print(f"Ordnername '{class_folder_name}' ist keine gültige Klassennummer.")
+            continue
+
+        csv_path = os.path.join(class_folder, f"GT-{class_folder_name}.csv")
         
         if not os.path.exists(csv_path):
             print(f"CSV-Datei nicht gefunden: {csv_path}")

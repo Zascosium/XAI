@@ -148,6 +148,6 @@ def test_model(test_dir, csv_path):
     print(f"Genauigkeit des Modells auf dem Testdatensatz: {accuracy:.2f}%")
 
 # Beispiel für die Verwendung
-test_dir = 'GTSRB/Final_Test/Images'
-csv_path = 'GTSRB/Final_Test/Images/GT-final_test.csv'
+test_dir = 'C:/Users/v814u63/Downloads/XAI-377f9f54b8b434d190285eb2d145e582fa48bec6/XAI-377f9f54b8b434d190285eb2d145e582fa48bec6/GTSRB/Final_Test/Images'
+csv_path = 'C:/Users/v814u63/Downloads/XAI-377f9f54b8b434d190285eb2d145e582fa48bec6/XAI-377f9f54b8b434d190285eb2d145e582fa48bec6/GTSRB/Final_Test/Images/GT-final_test.csv'
 test_model(test_dir, csv_path)
