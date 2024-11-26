@@ -1,0 +1,91 @@
+class CNN(nn.Module):
+    def __init__(self, num_classes):
+        super(CNN, self).__init__()
+        self.conv_layer1 = nn.Conv2d(in_channels=3, out_channels=64, kernel_size=4, padding=1)
+        self.relu1 = nn.ReLU()
+        self.max_pool1 = nn.MaxPool2d(kernel_size=3, stride=2)
+
+        self.conv_layer2 = nn.Conv2d(in_channels=64, out_channels=192, kernel_size=4, padding=1)
+        self.relu2 = nn.ReLU()
+        self.max_pool2 = nn.MaxPool2d(kernel_size=3, stride=2)
+
+        self.conv_layer3 = nn.Conv2d(in_channels=192, out_channels=384, kernel_size=4, padding=1)
+        self.relu3 = nn.ReLU()
+
+        self.conv_layer4 = nn.Conv2d(in_channels=384, out_channels=256, kernel_size=4, padding=1)
+        self.relu4 = nn.ReLU()
+
+        self.conv_layer5 = nn.Conv2d(in_channels=256, out_channels=128, kernel_size=4, padding=1)
+        self.relu5 = nn.ReLU()
+        self.max_pool5 = nn.MaxPool2d(kernel_size=3, stride=2)
+
+        self.dropout6 = nn.Dropout(p=0.3)
+        
+        
+        self.fc6 = nn.Linear(128, 512) 
+        self.relu6 = nn.ReLU()
+        self.dropout7 = nn.Dropout(p=0.3)
+        self.fc7 = nn.Linear(512, 256)
+        self.relu7 = nn.ReLU()
+
+        self.dropout8 = nn.Dropout(p=0.3)
+        self.fc8 = nn.Linear(256, 128)
+        self.relu8 = nn.ReLU()
+
+
+        self.fc9 = nn.Linear(128, num_classes)
+
+    def forward(self, x):
+        out = self.conv_layer1(x)
+        out = self.relu1(out)
+        out = self.max_pool1(out)
+
+        out = self.conv_layer2(out)
+        out = self.relu2(out)
+        out = self.max_pool2(out)
+
+        out = self.conv_layer3(out)
+        out = self.relu3(out)
+
+        out = self.conv_layer4(out)
+        out = self.relu4(out)
+
+        out = self.conv_layer5(out)
+        out = self.relu5(out)
+        out = self.max_pool5(out)
+
+        out = out.reshape(out.size(0), -1)
+        out = self.dropout6(out)
+        out = self.fc6(out)
+        out = self.relu6(out)
+
+        out = self.dropout7(out)
+        out = self.fc7(out)
+        out = self.relu7(out)
+
+        out = self.dropout8(out)
+        out = self.fc8(out)
+        out = self.relu8(out)
+
+        out = self.fc9(out)
+
+        return out
+
+
+
+
+
+
+
+# Initialisierung des Modells
+model = CNN(num_classes).to(device)
+loss_func = nn.CrossEntropyLoss()
+
+# Initiale Lernrate und Optimizer
+lr = 0.01
+weight_decay = 0.001
+#optimizer = optim.SGD(model.parameters(), lr=lr, weight_decay=weight_decay)
+optimizer = optim.SGD(model.parameters(), lr=lr)
+
+# ReduceLROnPlateau Scheduler
+#scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=3, threshold=0.001)
