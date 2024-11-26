@@ -3,7 +3,7 @@ import pandas as pd
 
 # Pfad zur CSV-Datei und zum Ordner mit den Unterordnern
 csv_path = 'GTSRB/GTSRB_Class_Names.csv'  # Pfad zur CSV-Datei
-root_folder = 'GTSRB/Final_Test/Images'  # Root-Ordner, der die Ordner 00000 bis 00042 enthält
+root_folder = 'C:/Users/v814u63/Documents/Uni/5. Semester/XAI/images/Images'  # Root-Ordner, der die Ordner 00000 bis 00042 enthält
 
 # CSV-Datei laden und die erste Zeile überspringen
 try:
