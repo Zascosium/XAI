@@ -4,8 +4,8 @@ import shutil
 
 # Pfade zur CSV-Datei und zum Bildordner
 csv_path = 'GTSRB/Final_Test/Images/GT-final_test.csv'  # Pfad zur neuen CSV-Datei
-image_folder = os.path.dirname(csv_path)  # Verzeichnis, in dem die Bilder und die CSV-Datei liegen
-target_folder = 'GTSRB/Final_Test/Images'  # Übergeordneter Ordner, in dem die Klassenordner erstellt werden
+image_folder = "C:/Users/v814u63\Documents/Uni/5. Semester/XAI/GTSRB_Final_Test_Images/GTSRB/Final_Test/Images"  # Verzeichnis, in dem die Bilder und die CSV-Datei liegen
+target_folder = 'test_images'  # Übergeordneter Ordner, in dem die Klassenordner erstellt werden
 
 # Zielordner erstellen, falls nicht vorhanden
 os.makedirs(target_folder, exist_ok=True)
