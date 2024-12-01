@@ -1,14 +1,14 @@
+# function dump at the beginning of the project
+
 import os
 import pandas as pd
 from PIL import Image
 
 def count_all_images(folder_path):
     total_images_count = 0
-    
-    # Durch alle Unterordner des angegebenen Verzeichnisses iterieren
     for root, dirs, files in os.walk(folder_path):
         for file in files:
-            # Prüfen, ob die Datei eine Bilddatei ist
+            # check if the file is an image
             if file.endswith(('ppm', 'jpg', 'jpeg', 'bmp', 'gif')):
                 total_images_count += 1
 
@@ -21,20 +21,15 @@ def count_small_images(folder_path, min_width, min_height):
     small_images_count = 0
     total_images_count = 0
     
-    # Durch alle Unterordner des angegebenen Verzeichnisses iterieren
     for root, dirs, files in os.walk(folder_path):
         for file in files:
             if file.endswith(('ppm', 'jpg', 'jpeg', 'bmp', 'gif')):
                 file_path = os.path.join(root, file)
                 try:
-                    # Öffne das Bild und prüfe die Auflösung
                     with Image.open(file_path) as img:
                         width, height = img.size
-                        total_images_count += 1  # Zähle alle Bilder
-                        
-                        # Zähle Bilder, die kleiner als die festgelegte Größe sind
+                        total_images_count += 1                         
                         if width < min_width or height < min_height:
-                            #print(f"Bild zu klein: {file_path} (Größe: {width}x{height})")
                             small_images_count += 1
                 except Exception as e:
                     print(f"Fehler beim Verarbeiten von {file_path}: {e}")
@@ -48,21 +43,19 @@ def calculate_largest_aspect_ratio_difference(folder_path):
     largest_difference = 0
     image_with_largest_difference = ""
 
-    # Durch alle Unterordner des angegebenen Verzeichnisses iterieren
+    # iterate over all subfolders of the specified directory
     for root, dirs, files in os.walk(folder_path):
         for file in files:
             if file.endswith(('ppm', 'jpg', 'jpeg', 'bmp', 'gif')):
                 file_path = os.path.join(root, file)
                 try:
-                    # Öffne das Bild und prüfe die Auflösung
                     with Image.open(file_path) as img:
                         width, height = img.size
                         
-                        # Berechne den Unterschied in Prozent der größeren Dimension
+                        # calculate the difference in percent from a squared image
                         if width != height:
                             difference = abs(width - height) / max(width, height) * 100
                             
-                            # Prüfe, ob dies der größte gefundene Unterschied ist
                             if difference > largest_difference:
                                 largest_difference = difference
                                 image_with_largest_difference = file_path
@@ -80,22 +73,20 @@ def calculate_percentage_of_images_with_large_aspect_ratio_difference(folder_pat
     total_images_count = 0
     images_with_large_difference_count = 0
 
-    # Durch alle Unterordner des angegebenen Verzeichnisses iterieren
+    # iterate over all subfolders of the specified directory
     for root, dirs, files in os.walk(folder_path):
         for file in files:
             if file.endswith(('ppm', 'jpg', 'jpeg', 'bmp', 'gif')):
                 file_path = os.path.join(root, file)
                 try:
-                    # Öffne das Bild und prüfe die Auflösung
+                    # open the image and check the resolution
                     with Image.open(file_path) as img:
                         width, height = img.size
-                        total_images_count += 1  # Zähle alle Bilder
+                        total_images_count += 1 
                         
-                        # Berechne den Unterschied in Prozent der größeren Dimension
                         if width != height:
                             difference = abs(width - height) / max(width, height) * 100
                             
-                            # Zähle Bilder mit einem Unterschied größer als der Schwellenwert
                             if difference > threshold_percentage:
                                 images_with_large_difference_count += 1
                 except Exception as e:
@@ -118,25 +109,22 @@ def count_images_falling_below_threshold_or_large_aspect_ratio_difference(folder
     total_images_count = 0
     images_falling_below_or_large_ratio_count = 0
 
-    # Durch alle Unterordner des angegebenen Verzeichnisses iterieren
+    # iterate over all subfolders of the specified directory
     for root, dirs, files in os.walk(folder_path):
         for file in files:
             if file.endswith(('ppm', 'jpg', 'jpeg', 'bmp', 'gif')):
                 file_path = os.path.join(root, file)
                 try:
-                    # Öffne das Bild und prüfe die Auflösung
                     with Image.open(file_path) as img:
                         width, height = img.size
-                        total_images_count += 1  # Zähle alle Bilder
+                        total_images_count += 1  
                         
-                        # Prüfe, ob das Bild kleiner als der Schwellenwert (z.B. 35x35) ist
                         if width < size_threshold or height < size_threshold:
                             images_falling_below_or_large_ratio_count += 1
                         else:
-                            # Berechne den Unterschied in Prozent der größeren Dimension
                             difference = abs(width - height) / max(width, height) * 100
                             
-                            # Prüfe, ob der Unterschied größer als der Schwellenwert (z.B. 10%) ist
+                            # check if the difference is greater than the specified threshold
                             if difference > ratio_threshold:
                                 images_falling_below_or_large_ratio_count += 1
                 except Exception as e:
@@ -159,27 +147,23 @@ def delete_images_falling_below_threshold_or_large_aspect_ratio_difference(folde
     total_images_count = 0
     images_deleted_count = 0
 
-    # Durch alle Unterordner des angegebenen Verzeichnisses iterieren
+    # iterate over all the images in the specified directory
     for root, dirs, files in os.walk(folder_path):
         for file in files:
             if file.endswith(('ppm', 'jpg', 'jpeg', 'bmp', 'gif')):
                 file_path = os.path.join(root, file)
                 try:
-                    # Öffne das Bild und prüfe die Auflösung
                     with Image.open(file_path) as img:
                         width, height = img.size
-                        total_images_count += 1  # Zähle alle Bilder
+                        total_images_count += 1  
                         
-                        # Prüfe, ob das Bild kleiner als der Schwellenwert (z.B. 35x35) ist
                         if width < size_threshold or height < size_threshold:
                             os.remove(file_path)
                             images_deleted_count += 1
                             print(f"Gelöscht: {file_path} (Größe: {width}x{height})")
                         else:
-                            # Berechne den Unterschied in Prozent der größeren Dimension
                             difference = abs(width - height) / max(width, height) * 100
                             
-                            # Prüfe, ob der Unterschied größer als der Schwellenwert (z.B. 10%) ist
                             if difference > ratio_threshold:
                                 os.remove(file_path)
                                 images_deleted_count += 1
@@ -196,19 +180,15 @@ def delete_images_falling_below_threshold_or_large_aspect_ratio_difference(folde
 def count_images_in_subfolders(folder_path):
     subfolder_image_counts = {}
 
-    # Durch alle Unterordner des angegebenen Verzeichnisses iterieren
     for root, dirs, files in os.walk(folder_path):
         image_count = 0
         for file in files:
-            # Prüfen, ob die Datei eine Bilddatei ist
             if file.endswith(('ppm', 'jpg', 'jpeg', 'bmp', 'gif')):
                 image_count += 1
         
-        # Speichere die Anzahl der Bilder für jeden Ordner (root gibt den aktuellen Ordnerpfad an)
         if image_count > 0:
             subfolder_image_counts[root] = image_count
 
-    # Ausgabe der Ergebnisse
     for subfolder, count in subfolder_image_counts.items():
         print(f"Unterordner: {subfolder}, Anzahl der Bilder: {count}")
     
@@ -220,36 +200,30 @@ def resize_image_with_largest_aspect_ratio_difference(folder_path, target_size=(
     largest_difference = 0
     image_with_largest_difference = ""
 
-    # Durch alle Unterordner des angegebenen Verzeichnisses iterieren
     for root, dirs, files in os.walk(folder_path):
         for file in files:
             if file.endswith(('ppm', 'jpg', 'jpeg', 'bmp', 'gif')):
                 file_path = os.path.join(root, file)
                 try:
-                    # Öffne das Bild und prüfe die Auflösung
                     with Image.open(file_path) as img:
                         width, height = img.size
                         
-                        # Berechne den Unterschied in Prozent der größeren Dimension
                         if width != height:
                             difference = abs(width - height) / max(width, height) * 100
                             
-                            # Prüfe, ob dies der größte gefundene Unterschied ist
                             if difference > largest_difference:
                                 largest_difference = difference
                                 image_with_largest_difference = file_path
                 except Exception as e:
                     print(f"Fehler beim Verarbeiten von {file_path}: {e}")
 
-    # Resize das Bild mit der größten Abweichung
     if image_with_largest_difference:
         try:
             with Image.open(image_with_largest_difference) as img:
-                # Originalbild speichern (z.B. als _original.jpg)
                 original_path = f"{os.path.splitext(image_with_largest_difference)[0]}_original{os.path.splitext(image_with_largest_difference)[1]}"
                 img.save(original_path)
                 
-                # Bild auf 35x35 resizen
+                # resize image to 35*35px
                 resized_img = img.resize(target_size, Image.LANCZOS)
                 resized_path = f"{os.path.splitext(image_with_largest_difference)[0]}_resized{os.path.splitext(image_with_largest_difference)[1]}"
                 resized_img.save(resized_path)
@@ -265,17 +239,15 @@ def resize_image_with_largest_aspect_ratio_difference(folder_path, target_size=(
    
    
 def resize_all_images_to_35x35(folder_path, target_size=(35, 35)):
-    # Durch alle Unterordner des angegebenen Verzeichnisses iterieren
     for root, dirs, files in os.walk(folder_path):
         for file in files:
             if file.endswith(('ppm', 'jpg', 'jpeg', 'bmp', 'gif')):
                 file_path = os.path.join(root, file)
                 try:
                     with Image.open(file_path) as img:
-                        # Bild auf 35x35 resizen
+                        # resize image to 35*35px
                         resized_img = img.resize(target_size, Image.LANCZOS)
                         
-                        # Bild speichern mit dem gleichen Dateinamen
                         resized_img.save(file_path)
                         print(f"Bild resized und gespeichert: {file_path}")
                 except Exception as e:
@@ -285,7 +257,6 @@ def resize_all_images_to_35x35(folder_path, target_size=(35, 35)):
 def count_images_with_35x35_ratio(folder_path):
     count = 0
     
-    # Durch alle Unterordner des angegebenen Verzeichnisses iterieren
     for root, dirs, files in os.walk(folder_path):
         for file in files:
             if file.endswith(('ppm', 'jpg', 'jpeg', 'bmp', 'gif')):
@@ -293,7 +264,6 @@ def count_images_with_35x35_ratio(folder_path):
                 try:
                     with Image.open(file_path) as img:
                         width, height = img.size
-                        # Prüfe, ob die Größe 35x35 ist
                         if width == 35 and height == 35:
                             count += 1
                 except Exception as e:
@@ -304,59 +274,47 @@ def count_images_with_35x35_ratio(folder_path):
         
 
 def clean_csv_files(folder_path):
-    """
-    Durchsucht alle Unterordner des angegebenen Pfads, überprüft für jede .csv-Datei,
-    ob die zugehörigen Bilddateien vorhanden sind, und löscht Einträge zu fehlenden Bildern.
-    
-    Parameters:
-    - folder_path (str): Pfad zum Hauptordner, der die Bilder-Ordner enthält.
-    """
     processed_files = 0
-    
-    # Überprüfen, ob der angegebene Pfad existiert
+
     if not os.path.exists(folder_path):
         print(f"Der Pfad '{folder_path}' existiert nicht.")
         return
     
     print(f"Durchsuche den Hauptordner: {folder_path}")
 
-    # Durch alle Unterordner und Dateien des angegebenen Verzeichnisses iterieren
     for root, dirs, files in os.walk(folder_path):
-        # Suchen nach der CSV-Datei im aktuellen Unterordner
         csv_file_path = None
         for file in files:
             if file.endswith(".csv"):
                 csv_file_path = os.path.join(root, file)
                 print(f"Verarbeite CSV-Datei: {csv_file_path}")
-                break  # Nur die erste gefundene CSV-Datei verarbeiten
-
+                break  
+            
         if csv_file_path is not None:
-            # CSV-Datei laden
+            # open CSV-file
             try:
                 df = pd.read_csv(csv_file_path, delimiter=";")
             except Exception as e:
                 print(f"Fehler beim Laden der CSV-Datei: {e}")
                 continue
             
-            # Liste zur Speicherung der Zeilen, die behalten werden sollen
             rows_to_keep = []
             
-            # Überprüfen, ob jede Bilddatei vorhanden ist
+            # check if the image files exist
             for _, row in df.iterrows():
                 image_file_path = os.path.join(root, row["Filename"])
                 if os.path.isfile(image_file_path):
                     rows_to_keep.append(row)
             
-            # Nur schreiben, wenn es Änderungen gibt
+            # write the image files back to the CSV-file if updated
             if len(rows_to_keep) != len(df):
-                # Aktualisierte Daten in die CSV-Datei zurückschreiben
                 updated_df = pd.DataFrame(rows_to_keep)
                 updated_df.to_csv(csv_file_path, index=False, sep=";")
                 print(f"Aktualisiert: {csv_file_path}")
             else:
                 print(f"Keine Änderungen erforderlich für: {csv_file_path}")
 
-            # Zähler erhöhen
+
             processed_files += 1
         else:
             print(f"Keine CSV-Datei in: {root}")
@@ -364,8 +322,8 @@ def clean_csv_files(folder_path):
     print(f"Bereinigung abgeschlossen. {processed_files} CSV-Dateien verarbeitet.")
 
 
-# Beispiel für Nutzung
-folder_path = "GTSRB/Final_Test/Images"
+# example for use
+folder_path = "../GTSRB/Final_Test/Images"
 
 min_width = 35
 min_height = 35
