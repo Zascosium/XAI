@@ -1,4 +1,4 @@
-# XAI: Die Auswirkungen von Optimierungsalgorithmen auf die Feature Map eines CNN
+# XAI: Die Auswirkungen von Optimierungsalgorithmen auf die Feature Map eines CNN - Tarek Bürner, David Langner, Linus Pfeifer 
 Wir haben die README-Datei, die Datei helper.md unter "GTSRB/Helper/helper.md" sowie Kommentare an wichtigen Stellen oder dort, wo sie sinnvoll sind, hinzugefügt, um den Code verständlicher zu machen. Zusätzlich wurden Markdown-Felder in der Datei main.ipynb eingefügt, um die grundlegende Struktur des Codes zu verbessern.
 
 ## Projektbeschreibung
