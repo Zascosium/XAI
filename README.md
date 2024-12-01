@@ -1,4 +1,5 @@
 # XAI: Die Auswirkungen von Optimierungsalgorithmen auf die Feature Map eines CNN
+Wir haben die README-Datei, die Datei helper.md unter "GTSRB/Helper/helper.md" sowie Kommentare an wichtigen Stellen oder dort, wo sie sinnvoll sind, hinzugefügt, um den Code verständlicher zu machen. Zusätzlich wurden Markdown-Felder in der Datei main.ipynb eingefügt, um die grundlegende Struktur des Codes zu verbessern.
 
 ## Projektbeschreibung
 In diesem Projekt untersuchen wir die Auswirkungen verschiedener Optimierungsalgorithmen auf die Feature Maps eines Convolutional Neural Networks (CNN). Zusätzlich verwenden wir Explainable AI (XAI)-Methoden wie GradCAM und Lime, um die Entscheidungsprozesse des Modells zu visualisieren. Das verwendete Dataset ist das **German Traffic Sign Recognition Benchmark (GTSRB)**, welches aus 43 Klassen besteht.
